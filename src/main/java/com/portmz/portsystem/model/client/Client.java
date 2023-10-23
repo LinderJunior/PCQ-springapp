@@ -1,4 +1,4 @@
-package com.portmz.portsystem.model.employee;
+package com.portmz.portsystem.model.client;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
@@ -15,7 +15,8 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Employee {
+public class Client {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,23 +24,25 @@ public class Employee {
 
     //@NotBlank
     @Size(max=60)
-    private String firstName;
+    private String name;
 
-    //@NotBlank
-    @Size(max=60)
-    private String lastName;
+    @JsonFormat(pattern = "yyyy/MM/dd")
+    private LocalDate dateBirth;
 
     //@NotBlank
     @Email
     @Size(max=255)
     private String email;
 
-    @JsonFormat(pattern = "yyyy/MM/dd")
-    private LocalDate dateBirth;
+    //@NotBlank
+    @Size(max=60)
+    private String numberID;
 
     //@NotBlank
     @Size(max=15)
     private String gender;
+
+    private String company;
 
     private String cell;
 

@@ -6,4 +6,6 @@ import java.util.List;
 public interface ContainerRepository extends JpaRepository<Container, Long> {
 
     List<ContainerDto> findContainerById(Long containerId);
+
+    boolean existsByNumber(int number);
 }

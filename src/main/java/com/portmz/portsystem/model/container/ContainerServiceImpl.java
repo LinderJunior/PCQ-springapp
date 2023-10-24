@@ -1,6 +1,7 @@
 package com.portmz.portsystem.model.container;
 
 import com.portmz.portsystem.exceptionHandler.BusinesException;
+import com.portmz.portsystem.model.user.User;
 import com.portmz.portsystem.model.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,22 @@ public class ContainerServiceImpl implements ContainerService {
 
     @Override
     public ContainerDto save(ContainerDto dto) {
+        User userSpringSecurity = userService.authenticated();
+        if (userSpringSecurity == null) {
+            throw new RuntimeException("Usuário não autenticado.");
+        }
+        // Verifique se o objeto user tem authorities antes de acessá-las
+        if (userSpringSecurity.getAuthorities() == null) {
+            throw new RuntimeException("O usuário não possui autorizações.");
+        }
 
         Container container = new Container();
+
+        // Verificar se o número de contêiner já existe no banco de dados
+        if (containerRepository.existsByNumber(dto.getNumber())) {
+            throw new BusinesException("Container with the same number already exists");
+        }
+
         copyDtoToEntityInsert(container, dto);
         container = containerRepository.save(container);
         return new ContainerDto(container);

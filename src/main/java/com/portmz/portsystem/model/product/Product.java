@@ -1,5 +1,7 @@
 package com.portmz.portsystem.model.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.portmz.portsystem.model.client.Client;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -27,6 +29,13 @@ public class Product {
     //@NotBlank
     @Size(max=60)
     private String type;
+
+    //Manager
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
+
 
 
 }

@@ -1,6 +1,8 @@
 package com.portmz.portsystem.model.product;
 
 import com.portmz.portsystem.exceptionHandler.BusinesException;
+import com.portmz.portsystem.model.client.Client;
+import com.portmz.portsystem.model.client.ClientService;
 import com.portmz.portsystem.model.user.User;
 import com.portmz.portsystem.model.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ClientService clientService;
 
     @Autowired
     private ProductRepository productRepository;
@@ -71,5 +76,10 @@ public class ProductServiceImpl implements ProductService {
     private void copyDtoToEntityInsert(Product product, ProductDto dto) {
         product.setName(dto.getName());
         product.setType(dto.getType());
+
+        if (dto.getClient_id() != null) {
+            Client client = clientService.getClientById(dto.getClient_id());
+            product.setClient(client);
+        }
     }
 }
